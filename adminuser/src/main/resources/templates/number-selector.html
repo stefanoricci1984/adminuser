@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0e2433;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #45b6fe;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            color: black;
+        }
+
+        h2 {
+            color: #45b6fe;
+        }
+
+        /* Add more styles and components for your dashboard here */
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Welcome, [[${user.getFullname()}]]</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <h1 th:text="${selectedMonth}"></h1>
+    <form th:action="@{'/save/' + ${selectedMonth}}" method="post">
+        <input type="hidden" name="username" th:value="${username}"> <!-- Aggiunto il campo per il nome utente -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Giorno della settimana</th>
+                <th>Selezione</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="number, index : ${numbers}">
+                <td th:text="${number}"></td>
+                <td th:text="${daysOfWeek[index.index]}"></td>
+                <td>
+                    <select class="form-control" name="selections" th:id="'selection-' + ${number}">
+                        <option value="SmartWorking">SmartWorking</option>
+                        <option value="Presente">Presente</option>
+                        <option value="Ferie">Ferie</option>
+                        <option value="Roll(hh)">Roll(hh)</option>
+                        <option value="Straordinario">Straordinario</option>
+                        <!-- Imposta "festivo" per sabato, domenica, 25 aprile e 27 aprile -->
+                        <th:block th:if="${daysOfWeek[index.index] == 'sabato'
+                            || daysOfWeek[index.index] == 'domenica'
+                            || (selectedMonth == 'Aprile' && number == 25)
+                            || (selectedMonth == 'Aprile' && number == 1)
+                            || (selectedMonth == 'Maggio' && number == 1)
+                            || (selectedMonth == 'Giugno' && number == 2)
+                            || (selectedMonth == 'Giugno' && number == 29)
+                            || (selectedMonth == 'Agosto' && number == 15)
+                            || (selectedMonth == 'Novembre' && number == 1)
+                            || (selectedMonth == 'Dicembre' && number == 8)
+                            || (selectedMonth == 'Dicembre' && number == 25)
+                            || (selectedMonth == 'Dicembre' && number == 26)
+                            || (selectedMonth == 'Gennaio' && number == 1)
+                            || (selectedMonth == 'Gennaio' && number == 6)}">
+                            <option value="festivo" selected>Festivo</option>
+                        </th:block>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Invia</button>
+    </form>
+</div>
+    <!-- Your dashboard content here -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
