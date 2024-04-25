@@ -36,6 +36,7 @@ public class UserController {
 
     @PostMapping("/registration")
     public String saveUser(@ModelAttribute("user") UserDto userDto, Model model) {
+        userDto.setRole("USER");
         userService.save(userDto);
         model.addAttribute("message", "Registered Successfuly!");
         return "register";
