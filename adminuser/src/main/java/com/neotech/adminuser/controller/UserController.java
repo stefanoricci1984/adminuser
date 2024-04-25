@@ -42,6 +42,19 @@ public class UserController {
         return "register";
     }
 
+    @GetMapping("/admin-registration")
+    public String getAdminRegistrationPage(@ModelAttribute("user") UserDto adminUserDto) {
+        return "admin-register";
+    }
+
+    @PostMapping("/admin-registration")
+    public String saveAdminUser(@ModelAttribute("user") UserDto adminUserDto, Model model) {
+        adminUserDto.setRole("ADMIN");
+        userService.save(adminUserDto);
+        model.addAttribute("message", "Admin Registered Successfully!");
+        return "admin-register";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
