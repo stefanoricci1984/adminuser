@@ -81,7 +81,7 @@
             <!-- Add more options for other months if needed -->
         </select>
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="display: none;">
         <thead class="thead-light">
         <tr>
             <th>Username</th>
@@ -122,6 +122,8 @@
                 row.style.display = "none";
             }
         });
+          // Mostra la tabella dopo aver filtrato i dati
+        document.querySelector(".table").style.display = "table"; // Mostra la tabella
     }
 </script>
 
