@@ -37,7 +37,7 @@ public class SecurityConfig {
                 //ruoli di tipo admin e user e endpoint liberi da ruolo
                 .authorizeHttpRequests(request -> request.requestMatchers("/admin-page")
                         .hasAuthority("ADMIN").requestMatchers("/user-page").hasAuthority("USER")
-                        .requestMatchers("/registration", "/css/**").permitAll()
+                        .requestMatchers("/registration","/admin-registration","/css/**").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")
