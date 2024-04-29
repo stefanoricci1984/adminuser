@@ -60,7 +60,10 @@
     </div>
 </nav>
 <div class="container">
-    <button class="btn btn-primary mb-3" onclick="exportToExcel()">Esporta su Excel</button>
+      <div class="clearfix">
+          <button class="btn btn-primary mb-3" onclick="exportToExcel()">Esporta su Excel</button>
+            <a class="btn btn-danger float-right" href="/delete-users">Cancella Utente</a>
+      </div>
     <!-- Filter for selecting the month -->
     <div class="form-group">
         <label for="monthSelect">Seleziona il mese:</label>
