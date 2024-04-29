@@ -55,6 +55,22 @@ public class UserController {
         return "admin-register";
     }
 
+    @GetMapping("/delete-users")
+    public String getDeleteUsersPage(Model model) {
+        List<User> users = userService.findAll();
+        model.addAttribute("users", users);
+        return "delete-users";
+    }
+
+    @PostMapping("/delete-user")
+    public String deleteUser(@RequestParam("email") String email) {
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            userService.delete(user);
+        }
+        return "redirect:/admin-page";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
