@@ -18,4 +18,20 @@ public class UserServiceImpl implements UserService {
         User user = new User(userDto.getEmail(), passwordEncoder.encode(userDto.getPassword()) , userDto.getRole(), userDto.getFullname());
         return userRepository.save(user);
     }
+    
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void delete(User user) {
+        userRepository.delete(user);
+
+    }
 }
